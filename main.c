@@ -98,11 +98,12 @@ void main(void)
     
     printf("at+addr?\r");
     
-    wait_CONNECT();
-    
+   
+    wait_PASSDSP_REQ();
     printf("at+passkey=00126f00c74e,123456\r");
     wait_OK();
-    
+    wait_CONNECT();
+
     wait_DISCONNECT();
 
     

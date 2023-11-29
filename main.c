@@ -89,42 +89,20 @@ void main(void)
     wait_OK();
     Delay1Second();
     Delay1Second();
-    printf("at+bond=00126f00c698\r");
+    
+    printf("at+iotype2\r");
     wait_OK();
-    printf("at+rolem\r");
-    wait_OK();
-    
-    printf("at+acon-\r");
-    wait_OK();
-    
-    Delay1Second();
-    Delay1Second();
-    
-    printf("at+iotype1\r");
-    wait_OK();
-    
-   
-    
     printf("at+mitm+\r");
     wait_OK();
-
-    printf("at+conn\r");
-    
-    wait_PASSKEY_CFM();
-    
-   // printf("at+passcfm=00126f00c698,Y\r"); 
-    
     
     wait_CONNECT();
     
-    Delay1Second();
-    Delay100_ms();
-    printf("+++");
-    wait_OK();
-    printf("at+drop\r");
+    printf("at+passkey=00126f00c698,123456\r");
     wait_OK();
     
     wait_DISCONNECT();
+
+    
     
     
     

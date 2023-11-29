@@ -22,6 +22,7 @@ bit flag_CONNECT=0;
 bit flag_OK=0;
 bit flag_DISCONNECT=0;
 bit flag_PASSKEY_CFM=0;
+bit flag_PASSKEY_REQ=0;
 //suite de vos variables
 //............
 
@@ -165,7 +166,11 @@ void interrupt isr(void)
                     case 36: 
                             flag_PASSKEY_CFM=1;
                     break;
-                    
+                     
+                     
+                    case 29: //CONNECT  "0012-6F-00C726"\r soit 26 caractùres dùtectùs
+                            flag_PASSKEY_REQ=1;
+                    break;
                     
                     
                     
@@ -173,7 +178,10 @@ void interrupt isr(void)
                             //printf("Error\r\n");
                             TrameERROROK=1;
                             printf("%d char\r",rw_ptr);
-                    break; 
+                    break;
+                    
+                   
+                    
 
                  Data=0;    
                  Data_1=0;
@@ -282,5 +290,17 @@ void wait_PASSKEY_DSP(){
 }         
 void wait_PASSDSP_REQ(){ 
     //votre code
-}        
+    Start='P';
+    Start1='A';
+    Start2='S';
+    flag_PASSKEY_REQ=0;
+    while(!flag_PASSKEY_REQ){   //DISCONNECT"0012-6F-00C698"
+        flag_PASSKEY_REQ=0;
+        LATA4 = 0;
+        Delay200_ms();
+        LATA4 = 1;
+        Delay200_ms();
+     }//votre code//votre code
+}         
+       
 

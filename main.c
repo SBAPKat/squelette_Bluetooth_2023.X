@@ -20,6 +20,7 @@
 //Déclaration des variables globales
 bit flag_CONNECT=0;
 bit flag_OK=0;
+bit flag_DISCONNECT=0;
 //suite de vos variables
 //............
 
@@ -83,10 +84,14 @@ void main(void)
     printf("at+addr?\r");                 //@Mac du composant ?
     //2. Attente réponse "\nOK\r"
     wait_OK(); 
-
+ 
+     printf("at+dcov+\r");                 //@Mac du composant ?
+    wait_OK(); 
     
     //suite de votre programme est ici
     //.........
+    wait_CONNECT();
+    printf("n'importe koi");  
     
 
     
@@ -137,6 +142,10 @@ void interrupt isr(void)
                             flag_CONNECT=1;
                     break;
 
+                    case 28: //CONNECT  "0012-6F-00C726"\r soit 26 caractères détectés
+                            flag_DISCONNECT=1;
+                    break;
+                    
                     default: //erreur de détection
                             //printf("Error\r\n");
                             TrameERROROK=1;
@@ -218,7 +227,17 @@ void wait_CONNECT(){
 
 // à faire
 void wait_DISCONNECT(){  
-    //votre code
+    Start='D';
+    Start1='I';
+    Start2='S';
+    flag_DISCONNECT=0;
+    while(!flag_DISCONNECT){   //DISCONNECT"0012-6F-00C698"
+        flag_DISCONNECT=0;
+        LATA4 = 0;
+        Delay200_ms();
+        LATA4 = 1;
+        Delay200_ms();
+     }//votre code
 }     
 void wait_PASSKEY_CFM(){  
     //votre code

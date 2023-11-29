@@ -21,6 +21,7 @@
 bit flag_CONNECT=0;
 bit flag_OK=0;
 bit flag_DISCONNECT=0;
+bit flag_PASSKEY_CFM=0;
 //suite de vos variables
 //............
 
@@ -80,18 +81,53 @@ void main(void)
     LATA4 = 1;          //LED D6 étiente : fin démarrage du système
 
 
-    //1. Envoi de commande AT
-    printf("at+addr?\r");                 //@Mac du composant ?
-    //2. Attente réponse "\nOK\r"
-    wait_OK(); 
- 
-     printf("at+dcov+\r");                 //@Mac du composant ?
-    wait_OK(); 
+  
+  //-----------------------------------------------------------------
+    printf("at\r");
+    wait_OK();
+    printf("at+reset\r");
+    wait_OK();
+    Delay1Second();
+    Delay1Second();
+    printf("at+bond=00126f00c698\r");
+    wait_OK();
+    printf("at+rolem\r");
+    wait_OK();
     
-    //suite de votre programme est ici
-    //.........
+    printf("at+acon-\r");
+    wait_OK();
+    
+    Delay1Second();
+    Delay1Second();
+    
+    printf("at+iotype1\r");
+    wait_OK();
+    
+   
+    
+    printf("at+mitm+\r");
+    wait_OK();
+
+    printf("at+conn\r");
+    
+    wait_PASSKEY_CFM();
+    
+    printf("at+passcfm=00126f00c698,Y\r");
+    
+    
     wait_CONNECT();
-    printf("n'importe koi");  
+    
+    Delay1Second();
+    Delay100_ms();
+    printf("+++");
+    wait_OK();
+    printf("at+drop\r");
+    wait_OK();
+    
+    wait_DISCONNECT();
+    
+    
+    
     
 
     
@@ -142,13 +178,21 @@ void interrupt isr(void)
                             flag_CONNECT=1;
                     break;
 
-                    case 28: //CONNECT  "0012-6F-00C726"\r soit 26 caractères détectés
+                    case 27: //CONNECT  "0012-6F-00C726"\r soit 26 caractères détectés
                             flag_DISCONNECT=1;
                     break;
+                    
+                    case 36: 
+                            flag_PASSKEY_CFM=1;
+                    break;
+                    
+                    
+                    
                     
                     default: //erreur de détection
                             //printf("Error\r\n");
                             TrameERROROK=1;
+                            printf("%d char\r",rw_ptr);
                     break; 
 
                  Data=0;    
@@ -240,7 +284,18 @@ void wait_DISCONNECT(){
      }//votre code
 }     
 void wait_PASSKEY_CFM(){  
-    //votre code
+    
+    Start='P';
+    Start1='A';
+    Start2='S';
+    flag_PASSKEY_CFM=0;
+    while(!flag_PASSKEY_CFM){   //DISCONNECT"0012-6F-00C698"
+        flag_PASSKEY_CFM=0;
+        LATA4 = 0;
+        Delay200_ms();
+        LATA4 = 1;
+        Delay200_ms();
+     }//votre code//votre code
 }         
 void wait_PASSKEY_DSP(){ 
     //votre code

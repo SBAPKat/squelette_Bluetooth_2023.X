@@ -1,0 +1,11 @@
+_wait_OK: CODE, 1804 0 32
+_iniPorts: CODE, 1868 0 10
+__stringdata: SMALLCONST, 1537 0 4
+_putch: CODE, 1856 0 12
+_main: CODE, 1542 0 102
+__initialization: CODE, 1644 0 56
+_isr: CODE, 8 0 358
+_printf: CODE, 1764 0 40
+_Delay1Second: CODE, 1710 0 54
+_InitUSART_19200: CODE, 1836 0 20
+Total: 688

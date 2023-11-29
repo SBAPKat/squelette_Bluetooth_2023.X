@@ -112,7 +112,7 @@ void main(void)
     
     wait_PASSKEY_CFM();
     
-    printf("at+passcfm=00126f00c698,Y\r");
+   // printf("at+passcfm=00126f00c698,Y\r"); 
     
     
     wait_CONNECT();

@@ -95,9 +95,11 @@ void main(void)
     printf("at+mitm+\r");
     wait_OK();
     
+    printf("at+addr?\r");
+    
     wait_CONNECT();
     
-    printf("at+passkey=00126f00c698,123456\r");
+    printf("at+passkey=00126f00c74e,123456\r");
     wait_OK();
     
     wait_DISCONNECT();

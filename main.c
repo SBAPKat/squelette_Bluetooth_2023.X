@@ -113,7 +113,7 @@ void main(void)
 
     printf("at+conn\r");
     
-    wait_PASSKEY_REQ();
+    wait_PASSDSP_REQ();
     
     printf("at+passkey=00126f00c747,123456\r");     
     
@@ -186,6 +186,10 @@ void interrupt isr(void)
                     
                     case 36: 
                             flag_PASSKEY_CFM=1;
+                    break;
+                    
+                    case 29: //CONNECT  "0012-6F-00C726"\r soit 26 caractùres dùtectùs
+                            flag_PASSKEY_REQ=1;
                     break;
                     
                     
@@ -312,7 +316,7 @@ void wait_PASSDSP_REQ(){
         LATA4 = 0;
         Delay200_ms();
         LATA4 = 1;
-        Delay200_ms()
+        Delay200_ms();
      }
 }        
 
